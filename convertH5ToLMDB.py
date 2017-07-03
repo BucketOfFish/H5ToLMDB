@@ -29,7 +29,8 @@ with h5py.File(src_db,'r') as f:
             datum.channels = c
             datum.height = h
             datum.width = w
-            datum.data = ar_data[i,:,:].tobytes()
+            data = expand_dims(ar_data[i,:,:], axis=0)
+            datum.data = data.tobytes()
             datum.label = ar_label[i]
             str_id = '{:08}'.format(i) # create an 8 digit string id based on the index
             txn.put(str_id.encode('ascii'), datum.SerializeToString())
@@ -39,7 +40,8 @@ with h5py.File(src_db,'r') as f:
             datum.channels = c
             datum.height = h
             datum.width = w
-            datum.data = ar_data[i+nTrain,:,:].tobytes()
+            data = expand_dims(ar_data[i+nTrain,:,:], axis=0)
+            datum.data = data.tobytes()
             datum.label = ar_label[i+nTrain]
             str_id = '{:08}'.format(i) # create an 8 digit string id based on the index
             txn.put(str_id.encode('ascii'), datum.SerializeToString())
