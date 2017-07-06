@@ -8,8 +8,6 @@ nTrain = 572;
 
 X = h5read(h5Name, '/Xhigh gamma');
 y = h5read(h5Name, '/y');
-size(X)
-size(y)
 X = permute(X, [1, 2, 4, 3]); % add dimension
 y = y'; % transpose
 
@@ -25,9 +23,11 @@ y = int32(y);
 if ~exist(LMDBTest, 'dir')
     mkdir(LMDBTest);
 end
-write_lmdb(LMDBTest, X(:,:,:,[1:nTest]), y(:,[1:nTest]));
+clear write_lmdb
+write_lmdb(LMDBTest, X(:,:,:,[1:nTest]), y(:,[1:nTest]), 'single');
 
 if ~exist(LMDBTrain, 'dir')
     mkdir(LMDBTrain);
 end
-write_lmdb(LMDBTest, X(:,:,:,[nTest+1:nTest+nTrain]), y(:,[nTest+1:nTest+nTrain]));
+clear write_lmdb
+write_lmdb(LMDBTrain, X(:,:,:,[nTest+1:nTest+nTrain]), y(:,[nTest+1:nTest+nTrain]), 'single');
