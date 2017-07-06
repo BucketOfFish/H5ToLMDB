@@ -20,11 +20,14 @@ y = y(perm);
 X = single(X); % cast from uint8 to float
 y = int32(y);
 
+% Keep only these ECoG channels
+goodChannels = [24, 25, 34, 43, 39, 26, 37, 38, 28, 35]
+
 if ~exist(LMDBTest, 'dir')
     mkdir(LMDBTest);
 end
 clear write_lmdb
-write_lmdb(LMDBTest, X(:,:,:,[1:nTest]), y(:,[1:nTest]), 'single');
+write_lmdb(LMDBTest, X(:,goodChannels,:,[1:nTest]), y(:,[1:nTest]), 'single');
 
 if ~exist(LMDBTrain, 'dir')
     mkdir(LMDBTrain);
